@@ -1,12 +1,15 @@
-package br.com.thiago.nasaapibackend.entities;
+package br.com.thiago.nasaapibackend.entities.neo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class Neo {
 
+    @JsonProperty("id")
     String id;
+    @JsonProperty("name")
     String name;
     @JsonProperty("absolute_magnitude_h")
     Double absoluteMagnitudeH;
@@ -16,5 +19,7 @@ public class Neo {
     boolean hazardous;
     @JsonProperty("close_approach_data")
     CloseApproachData coloseApproachData;
+    @JsonProperty("is_sentry_object")
+    boolean isSentryObject;
 
 }

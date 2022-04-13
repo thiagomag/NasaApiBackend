@@ -1,7 +1,7 @@
 package br.com.thiago.nasaapibackend.controller;
 
 import br.com.thiago.nasaapibackend.dto.RequestDto;
-import br.com.thiago.nasaapibackend.entities.NeosApiResponse;
+import br.com.thiago.nasaapibackend.entities.neo.NeosResponse;
 import br.com.thiago.nasaapibackend.service.NasaApiBackendService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class NasaApiBackendController {
     private final NasaApiBackendService nasaApiBackendService;
 
     @GetMapping("/neos")
-    public ResponseEntity<NeosApiResponse> getNeos(@RequestBody RequestDto requestDto) {
+    public ResponseEntity<NeosResponse> getNeos(@RequestBody RequestDto requestDto) {
         return nasaApiBackendService.getNeos(requestDto);
     }
 }

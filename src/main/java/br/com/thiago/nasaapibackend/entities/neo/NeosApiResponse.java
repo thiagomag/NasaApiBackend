@@ -1,4 +1,4 @@
-package br.com.thiago.nasaapibackend.entities;
+package br.com.thiago.nasaapibackend.entities.neo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

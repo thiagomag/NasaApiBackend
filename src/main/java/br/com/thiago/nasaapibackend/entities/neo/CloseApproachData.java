@@ -1,4 +1,4 @@
-package br.com.thiago.nasaapibackend.entities;
+package br.com.thiago.nasaapibackend.entities.neo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -12,5 +12,10 @@ public class CloseApproachData {
     private String closeApproachDateFull;
     @JsonProperty("epoch_date_close_approach")
     private String epochAateCloseApproach;
-
+    @JsonProperty("relative_velocity")
+    private RelativeVelocity relativeVelocity;
+    @JsonProperty("miss_distance")
+    private MissDistance missDistance;
+    @JsonProperty("orbiting_body")
+    private String orbitingBody;
 }
