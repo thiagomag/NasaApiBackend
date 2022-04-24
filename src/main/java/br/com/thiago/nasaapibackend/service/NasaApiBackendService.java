@@ -3,6 +3,7 @@ package br.com.thiago.nasaapibackend.service;
 import br.com.thiago.nasaapibackend.client.NasaApiClient;
 import br.com.thiago.nasaapibackend.dto.RequestDto;
 import br.com.thiago.nasaapibackend.entities.neo.NeosApiResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
