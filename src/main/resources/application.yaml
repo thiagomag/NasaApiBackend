@@ -1,3 +1,7 @@
 nasa:
   api:
     key: ${API_KEY}
+    
+java:
+  runtime:
+    version: 11
