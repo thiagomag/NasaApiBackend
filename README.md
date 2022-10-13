@@ -25,3 +25,9 @@ Dependencies used in this project:
             <optional>true</optional>
         </dependency>
 ~~~
+
+To run in docker 
+
+~~~
+docker run --name nasa-api-backend -e API_KEY={API_KEY} -p 8080:8080 nasa-api-backend:latest
+~~~
