@@ -1,15 +1,25 @@
 package br.com.thiago.nasaapibackend.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RequestDto {
 
-    @Schema(example = "dd/mm/yyyy", description = "start date for the search")
+    @Schema(example = "yyyy-MM-dd", description = "start date for the search")
+    @DateTimeFormat
     private LocalDate startDate;
-    @Schema(example = "dd/mm/yyyy", description = "finish date for the search")
+    @Schema(example = "yyyy-MM-dd", description = "finish date for the search")
+    @DateTimeFormat
     private LocalDate endDate;
 }
