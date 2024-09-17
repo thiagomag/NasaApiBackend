@@ -3,12 +3,13 @@ name: CI/CD Pipeline for Spring Boot Backend
 on:
   push:
     branches:
-      - main  # Build automático ao enviar código para a branch "main"
+      - master  # Build automático ao enviar código para a branch "main"
   workflow_dispatch:  # Deploy manual
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production  # Especifica o environment "production" para este job
 
     steps:
       - name: Checkout code
@@ -34,6 +35,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    environment: production  # Especifica o environment "production" para este job
     if: github.event_name == 'workflow_dispatch'  # Executa o deploy apenas manualmente
 
     steps:
