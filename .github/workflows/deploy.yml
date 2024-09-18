@@ -25,12 +25,21 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      # Step 3: Listar arquivos no diretório target
-      # Isso ajuda a verificar se o arquivo .jar foi criado corretamente
+      # Step 3: Diagnóstico de build - Verificar se o target foi criado
+      - name: Check for target directory
+        run: |
+          if [ ! -d "target" ]; then
+            echo "Maven build failed or did not generate the target directory."
+            exit 1
+          else
+            echo "Target directory exists."
+          fi
+
+      # Step 4: Listar arquivos no diretório target
       - name: List target directory
         run: ls -al target/
 
-      # Step 4: Upload de artefatos (atualizado para v3)
+      # Step 5: Upload de artefatos (atualizado para v3)
       - name: Upload build artifact
         uses: actions/upload-artifact@v3  # Atualizado para v3
         with:
@@ -47,7 +56,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 5: Encontrar o arquivo .jar gerado
+      # Step 6: Encontrar o arquivo .jar gerado
       - name: Find JAR file
         id: jar-file
         run: |
@@ -59,12 +68,12 @@ jobs:
             echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
           fi
 
-      # Step 6: Verificar se o arquivo JAR foi encontrado
+      # Step 7: Verificar se o arquivo JAR foi encontrado
       - name: Verify JAR file existence
         run: |
-          echo "JAR file path is: $JAR_PATH"  # Acessa a variável diretamente no shell
+          echo "JAR file path is: $JAR_PATH"
 
-      # Step 7: Copiar o arquivo JAR para a instância EC2 via SCP
+      # Step 8: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -74,7 +83,7 @@ jobs:
           source: "${{ env.JAR_PATH }}"
           target: "/home/ec2-user/app/"
 
-      # Step 8: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 9: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.4
         with:
