@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Spring Boot Backend
 on:
   push:
     branches:
-      - master  # Build automático ao enviar código para a branch "main"
+      - main  # Build automático ao enviar código para a branch "main"
   workflow_dispatch:  # Deploy manual
 
 jobs:
@@ -25,9 +25,14 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      # Step 3: Upload de artefatos (opcional)
+      # Step 3: Listar arquivos no diretório target
+      # Isso ajuda a verificar se o arquivo .jar foi criado corretamente
+      - name: List target directory
+        run: ls -al target/
+
+      # Step 4: Upload de artefatos (atualizado para v3)
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3  # Atualizado para v3
         with:
           name: spring-boot-app
           path: target/*.jar
@@ -39,21 +44,25 @@ jobs:
     if: github.event_name == 'workflow_dispatch'  # Executa o deploy apenas manualmente
 
     steps:
-      # Step 4: Checkout do código novamente no step de deploy
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 5: Copiar o arquivo JAR para a instância EC2 via SCP
+      # Step 5: Encontrar o arquivo .jar gerado
+      - name: Find JAR file
+        id: jar-file
+        run: echo "::set-output name=jarfile::$(find target/ -name '*.jar')"
+
+      # Step 6: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_KEY }}
-          source: "target/*.jar"
+          source: "${{ steps.jar-file.outputs.jarfile }}"
           target: "/home/ec2-user/app/"
 
-      # Step 6: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 7: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.4
         with:
