@@ -50,9 +50,20 @@ jobs:
       # Step 5: Encontrar o arquivo .jar gerado
       - name: Find JAR file
         id: jar-file
-        run: echo "::set-output name=jarfile::$(find target/ -name '*.jar')"
+        run: |
+          JAR_PATH=$(find target/ -name '*.jar')
+          if [ -z "$JAR_PATH" ]; then
+            echo "No JAR file found in target/ directory."
+            exit 1
+          else
+            echo "::set-output name=jarfile::$JAR_PATH"
+          fi
 
-      # Step 6: Copiar o arquivo JAR para a instância EC2 via SCP
+      # Step 6: Verificar se o arquivo JAR foi encontrado
+      - name: Verify JAR file existence
+        run: echo "JAR file path is: ${{ steps.jar-file.outputs.jarfile }}"
+
+      # Step 7: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -62,7 +73,7 @@ jobs:
           source: "${{ steps.jar-file.outputs.jarfile }}"
           target: "/home/ec2-user/app/"
 
-      # Step 7: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 8: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.4
         with:
