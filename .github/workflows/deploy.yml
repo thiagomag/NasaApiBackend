@@ -56,12 +56,12 @@ jobs:
             echo "No JAR file found in target/ directory."
             exit 1
           else
-            echo "::set-output name=jarfile::$JAR_PATH"
+            echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
           fi
 
       # Step 6: Verificar se o arquivo JAR foi encontrado
       - name: Verify JAR file existence
-        run: echo "JAR file path is: ${{ steps.jar-file.outputs.jarfile }}"
+        run: echo "JAR file path is: ${{ env.JAR_PATH }}"
 
       # Step 7: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
@@ -70,7 +70,7 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_KEY }}
-          source: "${{ steps.jar-file.outputs.jarfile }}"
+          source: "${{ env.JAR_PATH }}"
           target: "/home/ec2-user/app/"
 
       # Step 8: Conectar na instância EC2 via SSH e iniciar o Spring Boot
