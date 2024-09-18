@@ -61,7 +61,8 @@ jobs:
 
       # Step 6: Verificar se o arquivo JAR foi encontrado
       - name: Verify JAR file existence
-        run: echo "JAR file path is: ${{ env.JAR_PATH }}"
+        run: |
+          echo "JAR file path is: $JAR_PATH"  # Acessa a variável diretamente no shell
 
       # Step 7: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
