@@ -15,17 +15,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 1: Configurar o JDK 17
+      # Step 1: Verificar o diretório de trabalho antes do build
+      - name: Print current working directory
+        run: pwd
+
+      # Step 2: Listar o conteúdo do diretório de trabalho para verificar onde o Maven está
+      - name: List working directory contents
+        run: ls -al
+
+      # Step 3: Configurar o JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
           java-version: '17'
 
-      # Step 2: Build com Maven usando o JDK 17
+      # Step 4: Build com Maven usando o JDK 17
       - name: Build with Maven
         run: mvn clean install
 
-      # Step 3: Diagnóstico de build - Verificar se o target foi criado
+      # Step 5: Verificar se o diretório target foi criado
       - name: Check for target directory
         run: |
           if [ ! -d "target" ]; then
@@ -35,11 +43,11 @@ jobs:
             echo "Target directory exists."
           fi
 
-      # Step 4: Listar arquivos no diretório target
+      # Step 6: Listar arquivos no diretório target
       - name: List target directory
         run: ls -al target/
 
-      # Step 5: Upload de artefatos (atualizado para v3)
+      # Step 7: Upload de artefatos (atualizado para v3)
       - name: Upload build artifact
         uses: actions/upload-artifact@v3  # Atualizado para v3
         with:
@@ -56,7 +64,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 6: Encontrar o arquivo .jar gerado
+      # Step 8: Encontrar o arquivo .jar gerado
       - name: Find JAR file
         id: jar-file
         run: |
@@ -68,12 +76,12 @@ jobs:
             echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
           fi
 
-      # Step 7: Verificar se o arquivo JAR foi encontrado
+      # Step 9: Verificar se o arquivo JAR foi encontrado
       - name: Verify JAR file existence
         run: |
-          echo "JAR file path is: $JAR_PATH"
+          echo "JAR file path is: ${{ env.JAR_PATH }}"
 
-      # Step 8: Copiar o arquivo JAR para a instância EC2 via SCP
+      # Step 10: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -83,7 +91,7 @@ jobs:
           source: "${{ env.JAR_PATH }}"
           target: "/home/ec2-user/app/"
 
-      # Step 9: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 11: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.4
         with:
