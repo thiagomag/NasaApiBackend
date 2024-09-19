@@ -97,7 +97,7 @@ jobs:
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_KEY }}
           source: "${{ env.JAR_PATH }}"
-          target: "/home/ec2-user/app/"
+          target: "/home/ubuntu/app/"
 
       # Step 12: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
@@ -107,5 +107,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_KEY }}
           script: |
-            cd /home/ec2-user/app/
+            cd /home/ubuntu/app/
             nohup java -jar *.jar > log.txt 2>&1 &
