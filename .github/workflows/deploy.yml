@@ -70,12 +70,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: spring-boot-app
+          path: ./artifact/  # Baixar para um diretório específico
 
-      # Step 9: Encontrar o arquivo .jar baixado
-      - name: Find JAR file
+      # Step 9: Encontrar o arquivo .jar baixado na pasta específica
+      - name: Find JAR file in artifact directory
         id: jar-file
         run: |
-          JAR_PATH=$(find . -name '*.jar')
+          JAR_PATH=$(find ./artifact/ -name '*.jar')
           if [ -z "$JAR_PATH" ]; then
             echo "No JAR file found after download."
             exit 1
