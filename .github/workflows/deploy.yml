@@ -109,3 +109,4 @@ jobs:
           script: |
             cd /home/ubuntu/app/artifact/
             nohup java -jar *.jar > log.txt 2>&1 &
+            tail -f log.txt
