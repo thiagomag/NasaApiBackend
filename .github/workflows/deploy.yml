@@ -101,7 +101,7 @@ jobs:
 
       # Step 12: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
