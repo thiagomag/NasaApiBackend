@@ -1,6 +1,5 @@
 package br.com.thiago.nasaapibackend.entities.neo;
 
-import br.com.thiago.nasaapibackend.entities.Links;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -9,15 +8,12 @@ import java.util.List;
 @Data
 public class Neo {
 
-    private Links links;
     @JsonProperty("id")
     private String id;
     @JsonProperty("neo_reference_id")
     private String neoReferenceId;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("nasa_jpl_url")
-    private String nasaJplUrl;
     @JsonProperty("absolute_magnitude_h")
     private double absoluteMagnitudeH;
     @JsonProperty("estimated_diameter")

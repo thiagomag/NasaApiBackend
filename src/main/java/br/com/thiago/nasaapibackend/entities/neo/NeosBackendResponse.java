@@ -1,6 +1,5 @@
 package br.com.thiago.nasaapibackend.entities.neo;
 
-import br.com.thiago.nasaapibackend.entities.Links;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,13 +14,11 @@ import java.util.Optional;
 @Builder
 public class NeosBackendResponse {
 
-    private Links links;
     private Integer elementCount;
     private List<NeosByDate> neosByDateList;
 
     public static NeosBackendResponse adapt(NeosApiResponse responseApi, LocalDate startDate, LocalDate endDate) {
         return NeosBackendResponse.builder()
-                .links(responseApi.getLinks())
                 .elementCount(responseApi.getElementCount())
                 .neosByDateList(buildListByDate(responseApi.getNearEarthObjects(), startDate, endDate))
                 .build();
