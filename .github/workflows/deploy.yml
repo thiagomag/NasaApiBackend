@@ -107,5 +107,5 @@ jobs:
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_KEY }}
           script: |
-            cd /home/ubuntu/app/
+            cd /home/ubuntu/app/artifact/
             nohup java -jar *.jar > log.txt 2>&1 &
