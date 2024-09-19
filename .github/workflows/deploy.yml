@@ -48,8 +48,9 @@ jobs:
         run: ls -al target/
 
       # Step 7: Upload de artefatos (atualizado para v3)
+      # Isso preserva o .jar entre jobs
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3  # Atualizado para v3
+        uses: actions/upload-artifact@v3
         with:
           name: spring-boot-app
           path: target/*.jar
@@ -64,24 +65,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 8: Encontrar o arquivo .jar gerado
+      # Step 8: Baixar o artefato (arquivo JAR) gerado no build
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spring-boot-app
+
+      # Step 9: Encontrar o arquivo .jar baixado
       - name: Find JAR file
         id: jar-file
         run: |
-          JAR_PATH=$(find target/ -name '*.jar')
+          JAR_PATH=$(find . -name '*.jar')
           if [ -z "$JAR_PATH" ]; then
-            echo "No JAR file found in target/ directory."
+            echo "No JAR file found after download."
             exit 1
           else
             echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
           fi
 
-      # Step 9: Verificar se o arquivo JAR foi encontrado
+      # Step 10: Verificar se o arquivo JAR foi encontrado
       - name: Verify JAR file existence
         run: |
-          echo "JAR file path is: ${{ env.JAR_PATH }}"
+          echo "JAR file path is: $JAR_PATH"
 
-      # Step 10: Copiar o arquivo JAR para a instância EC2 via SCP
+      # Step 11: Copiar o arquivo JAR para a instância EC2 via SCP
       - name: Deploy to AWS EC2
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -91,7 +98,7 @@ jobs:
           source: "${{ env.JAR_PATH }}"
           target: "/home/ec2-user/app/"
 
-      # Step 11: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 12: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.4
         with:
