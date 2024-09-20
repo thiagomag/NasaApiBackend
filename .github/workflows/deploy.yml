@@ -102,6 +102,7 @@ jobs:
       # Step 12: Conectar na instância EC2 via SSH e parar o Spring Boot se estiver em execução
       - name: Stop existing Spring Boot application if running
         uses: appleboy/ssh-action@v0.1.5
+        continue-on-error: true  # Ignora erros e continua o workflow
         with:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
