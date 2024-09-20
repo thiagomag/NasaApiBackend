@@ -99,7 +99,23 @@ jobs:
           source: "${{ env.JAR_PATH }}"
           target: "/home/ubuntu/app/"
 
-      # Step 12: Conectar na instância EC2 via SSH e iniciar o Spring Boot
+      # Step 12: Conectar na instância EC2 via SSH e parar o Spring Boot se estiver em execução
+      - name: Stop existing Spring Boot application if running
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          key: ${{ secrets.AWS_EC2_KEY }}
+          script: |
+            if pgrep -f nasaapibackend-0.0.1-SNAPSHOT.jar > /dev/null
+            then
+              echo "Stopping existing Spring Boot application..."
+              pkill -f nasaapibackend-0.0.1-SNAPSHOT.jar
+            else
+              echo "No existing Spring Boot application running."
+            fi
+
+      # Step 13: Conectar na instância EC2 via SSH e iniciar o Spring Boot
       - name: Run Spring Boot on EC2
         uses: appleboy/ssh-action@v0.1.5
         with:
