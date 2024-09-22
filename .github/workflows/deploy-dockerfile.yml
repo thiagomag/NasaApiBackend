@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Spring Boot Backend
+name: CI/CD Pipeline with Dockerfile
 
 on:
   push:
