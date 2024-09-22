@@ -27,7 +27,7 @@ jobs:
 
       # Step 3: Build imagem docker
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/nasa-api-front-vue3:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest .
 
       # Step 4: Login no docker hub
       - name: Login to Docker Hub
@@ -35,7 +35,7 @@ jobs:
 
       # Step 5: Push imagem docker para o Docker Hub
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/nasa-api-front-vue3:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,5 +61,5 @@ jobs:
             cd /home/ubuntu/vue3-app
             docker stop $(docker ps -a -q) || true
             docker rm $(docker ps -a -q) || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/nasa-api-front-vue3:latest
-            docker run -d -p 5173:80 ${{ secrets.DOCKER_USERNAME }}/nasa-api-front-vue3:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            docker run -d -p 5173:80 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
