@@ -57,9 +57,9 @@ jobs:
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/vue3-app
-            cd /home/ubuntu/vue3-app
+            mkdir -p /home/ubuntu/nasa-api-backend
+            cd /home/ubuntu/nasa-api-backend
             docker stop $(docker ps -a -q) || true
             docker rm $(docker ps -a -q) || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            docker run -d -p 5173:80 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
