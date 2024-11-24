@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /nasa-backend
+
 nasa:
   api:
     key: "EU7TfjpJKu6R2M8vhEC4S6DV1ZLkWAOsfOrz7LIB"
