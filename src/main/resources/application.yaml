@@ -1,6 +1,4 @@
 server:
-  servlet:
-    context-path: /nasa-backend
   port: 8080
 
 nasa:

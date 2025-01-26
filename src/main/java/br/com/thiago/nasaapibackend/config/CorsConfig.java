@@ -13,8 +13,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")// URL do seu frontend
-                        .allowedOrigins("http://ec2-34-228-189-95.compute-1.amazonaws.com:5173")  // URL do seu frontend
+                registry.addMapping("/api/**")  // Especifique os endpoints necessários
+                        .allowedOrigins("https://nasa-api-front-vue3-latest.onrender.com")  // Defina explicitamente a origem
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -22,4 +22,3 @@ public class CorsConfig {
         };
     }
 }
-
