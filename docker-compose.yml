@@ -1,6 +1,6 @@
 services:
-  api-gateway-fiap-service:
-    container_name: api-gateway-fiap-service
+  nasa-api-backend:
+    container_name: nasa-api-backend
     ports:
       - "8081:8080"
     networks:
@@ -11,3 +11,4 @@ volumes:
 
 networks:
   rpi-network:
+    external: true

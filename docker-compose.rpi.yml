@@ -1,5 +1,5 @@
 services:
-  api-gateway-fiap-service:
+  nasa-api-backend:
     image: thiagomag/nasa-api-backend:rpi
     build:
       context: .
