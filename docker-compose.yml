@@ -3,12 +3,6 @@ services:
     container_name: nasa-api-backend
     ports:
       - "8081:8080"
-    networks:
-      - rpi-network
 
 volumes:
   postgres_data:
-
-networks:
-  rpi-network:
-    external: true
