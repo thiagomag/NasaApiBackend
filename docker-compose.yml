@@ -1,6 +1,7 @@
 services:
   nasa-api-backend:
     container_name: nasa-api-backend
+    restart: unless-stopped
     ports:
       - "8081:8080"
 
