@@ -31,3 +31,7 @@ To run in docker
 ~~~
 docker run --name nasa-api-backend -e API_KEY={API_KEY} -p 8080:8080 nasa-api-backend:latest
 ~~~
+
+docker-compose -f docker-compose.yml -f docker-compose.windows.yml build --no-cache
+
+docker-compose -f docker-compose.yml -f docker-compose.windows.yml up -d
